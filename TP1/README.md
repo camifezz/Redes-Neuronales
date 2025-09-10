@@ -1,4 +1,16 @@
-# Redes-Neuronales - TP1
+# Redes-Neuronales - TP1 
+![](logo-fiuba.png)
+
+
+|          |                   |
+|---------------|------------------------|
+| Nombre        | Camila Fernández Marchitelli     |
+| Padrón          | 102515               |
+| Año       | 2025 |
+| Mail          | cfernandezm@fi.uba.ar    |
+
+
+
 
 ## Tabla de Contenidos
 - [Introducción](#Introducción)
@@ -18,9 +30,9 @@
 
 ## Introducción
 ### ¿Qué es una red neuronal biológica y como se imitan mediante algoritmos?
-🧠 `Red neuronal biológica`: funciona con neuronas, impulsos eléctricos y sinapsis. Cada neurona decide si transmite una señal en función de la suma de sus entradas y la fuerza de las conexiones. El aprendizaje ocurre reforzando o debilitando esas conexiones.
+`Red neuronal biológica`: funciona con neuronas, impulsos eléctricos y sinapsis. Cada neurona decide si transmite una señal en función de la suma de sus entradas y la fuerza de las conexiones. El aprendizaje ocurre reforzando o debilitando esas conexiones.
 
-💻 `Red neuronal artificial`: está compuesta por "nodos" o "neuronas artificiales" que realizan operaciones matemáticas simples.
+`Red neuronal artificial`: está compuesta por "nodos" o "neuronas artificiales" que realizan operaciones matemáticas simples.
 
 Las redes neuronales artificiales imitan de manera muy simplificada la forma en que las redes biológicas procesan y aprenden información. No replican la complejidad del cerebro, pero toman la idea de "muchas unidades simples conectadas en red que, al trabajar juntas, generan comportamientos complejos".
 
@@ -35,6 +47,7 @@ La red de Hopfield es una de ellas. En la próxima sección se hace una introduc
 El modelo de Hopfield, propuesto por John Hopfield en 1982, es una de las primeras arquitecturas de redes neuronales artificiales que buscó imitar el funcionamiento de la memoria en el cerebro
 
 La idea principal es que la red pueda funcionar como una `memoria asociativa`:
+
 - Durante el entrenamiento, se almacenan patrones en los pesos de la red.
 
 - Cuando se le presenta un patrón incompleto o ruidoso, la red evoluciona dinámicamente hasta estabilizarse en el patrón correcto o en uno muy cercano.
@@ -52,13 +65,15 @@ La memoria asociativa en Hopfield permite que la red actúe como un recordador d
 ### a- Verifique si la red aprendió las imágenes enseñadas.
 Para probar esto, le presento a la red 3 imágenes del mismo tamaño y evalúo la convergencia de cada imagen.
 
-![paloma](paloma-entrenamiento.png)
-![quijote](quijote-entrenamiento.png)
-![torero](torero-entrenamiento.png)
+![Patrón 1](paloma-entrenamiento.png)
+
+![Patrón 2](quijote-entrenamiento.png)
+
+![Patrón 3](torero-entrenamiento.png)
 
 La imagen recuperada es la misma que el patrón inicial. Por lo que podemos concluir que la red aprendió de los patrones enseñados.
 
-### b- Evalúe la evolución de la red al presentarle versiones alteradas de las imágenesa prendidas: agregado de ruido, elementos borrados o agregados.
+### b- Evalúe la evolución de la red al presentarle versiones alteradas de las imágenes aprendidas: agregado de ruido, elementos borrados o agregados.
 
 ### Agregandole ruido a los patrones invirtiendo los bits
 Para este punto elegí las imágenes de tamaño (50,50), les agregué diferentes grados de ruido y probé la red.
@@ -66,9 +81,11 @@ Elegí agregarle ruido invirtiendo bits de forma aleatoria.
 
 Se puede ver que la red es bastante tolerante al ruido elegido, ya que logró converger a la imagen inicial en los 3 casos.
 
-![panda](panda-con-ruido.png)
-![v](v-con-ruido.png)
-![perro](perro-con-ruido.png)
+![](panda-con-ruido.png)
+
+![](v-con-ruido.png)
+
+![](perro-con-ruido.png)
 
 
 
@@ -76,15 +93,11 @@ Se puede ver que la red es bastante tolerante al ruido elegido, ya que logró co
 
 Se puede observar que borrando hasta un 70% del patrón original la red converge de forma correcta.
 
+![Borrando el 50% del patrón original](panda-borrado-50.png)
 
-#### 1- Borrando el 50% del patrón original
-![panda-borrado](panda-borrado-50.png)
+![Borrando el 70% del patrón original](panda-borrado-70.png)
 
-#### 2- Borrando el 70% del patrón original
-![panda-borrado](panda-borrado-70.png)
-
-#### 3- Borrando el 90% del patrón original
-![panda-borrado](panda-borrado-90.png)
+![Borrando el 90% del patrón original](panda-borrado-90.png)
 
 ### c- Evalúe la existencia de estados espurios en la red: patrones inversos y combinaciones de un número impar de patrones.
 #### Estados espurios
@@ -94,10 +107,14 @@ Cuando a la red se le da una entrada ruidosa o incompleta, la dinámica baja la 
 Además de estos patrones entrenados, aparecen otros mínimos estables que no son patrones originales, a esos mínimos se los llama estados espurios.
 
 #### Tipos de estados espurios
+
 ##### 1- Patrones inversos
-Si ξμ es un patrón entrenado, su inverso -ξμ también puede ser un mínimo estable.
+
+Si $\xi\mu$ es un patrón entrenado, su inverso -$\xi\mu$ también puede ser un mínimo estable.
 Por ejemplo: Si la red memorizó un panda, la red puede converger también en un "anti panda" todo invertido lo blaco/negro.
+
 ##### 2- Combinaciones de un número impar de patrones
+
 Un estado espurio también puede ser una suma de k (número impar, observar en la formula 2k+1) estados enseñados:
 
 $$
@@ -118,6 +135,7 @@ Teniendo en cuenta lo anteriomente explicado, voy a evaluar la existencia de est
 Elijo los patrones de tamaño (50x50) ya que tienen mas detalle de color.
 
 Lo que se hace es:
+
 1. Entreno a la red con los patrones reales.
 
 2. Le doy como entrada un patrón inverso (que nunca fue parte del entrenamiento).
@@ -129,25 +147,35 @@ Si la red:
 2. Si converge al patrón inverso entonces ese inverso se convirtió en un estado espurio.
 
 ### Patrones inversos
-![panda-inverso](panda-inverso.png)
-![perro-inverso](perro-inverso.png)
-![v-inverso](v-inverso.png)
+![](panda-inverso.png)
+
+![](perro-inverso.png)
+
+![](v-inverso.png)
 
 Como pudimos observar estos patrones inversos son estados espurios de la red. La red recuerda también la versión invertida aunque no le haya enseñado antes porque matemáticamente tiene la misma coherencia interna que el patrón real.
 
 ### Combinaciones de un número impar de patrones
-![combinacion-3-patrones](combinacion-3-patrones.png)
+
+![Combinación con 3 patrones](combinacion-3-patrones.png)
+
+
 Decidí tomar una combinación impar de patrones que no estaba en el set de entrenamiento y podemos observar que la red lo devolvió tal cual y no coincide con ninguno de los patrones enseñados. Por lo que se puede concluir que es un estado espurio del tipo "combinación impar de patrones"
 
 ### d- Realice un entrenamiento con las 6 imágenes disponibles. ¿Es capaz la red de aprender todas las imágenes? Explique.
 Para realizar el entrenamiento con todas las imagenes, lo primero que decido hacer en normalizarlas a todas en un mismo tamaño de 50x50 completando con pixeles blancos.
 
-![todo_1](todo_1.png)
-![todo-2](todo-2.png)
-![todo-3](todo-3.png)
-![todo-4](todo-4.png)
-![todo-5](todo-5.png)
-![todo-6](todo-6.png)
+![](todo_1.png)
+
+![](todo-2.png)
+
+![](todo-3.png)
+
+![](todo-4.png)
+
+![](todo-5.png)
+
+![](todo-6.png)
 
 Se puede observar que luego de presentarse los 6 patrones con los que la red aprendió, no pudo aprender bien todas las imágenes, ya que en 4 casos no logró converger al patrón real.
 
@@ -169,22 +197,29 @@ Este comportamiento refleja las restricciones de las redes de Hopfield: su memor
 En este experimento usamos una red de Hopfield ’82 para estimar su capacidad de almacenamiento. Para eso generamos patrones pseudo-aleatorios y medimos hasta cuántos se pueden guardar antes de superar un cierto nivel de error P<sub>error</sub>.
 
 La elección de los parámetros es la siguiente:
+
 - El parámetro `n` fija el tamaño de la red. Tomé como valor `n=10`, se obtuvieron `N=100 neuronas`. Esto significa que cada patrón es un vector de 100 bits en (-1;1). Probé con un valor de `n` mayor y el programa se quedaba colgado.
+
 - El parámetro `trials` indica cuántas veces repetimos el experimento para el mismo umbral de error. Cada repetición genera patrones aleatorios distintos, por lo que los resultados pueden variar. Se repite muchas veces y se promedian los resultados para llegar a estimaciones mas estables de la capacidad de la red.
+
 - El parámetro `seed` controla la aleatoriedad. Si no lo fijamos, cada corrida puede dar resultados diferentes porque los patrones iniciales cambian.
 
 Los cambios implementados en las funciones usadas en la parte 1 son las siguientes:
+
 - Patrones (pseudo-aleatorios en vez de imágenes).
 
-- Regla de pesos (dividir por 𝑁 en vez de P).
+- Regla de pesos (dividir por N en vez de P).
 
 - Evaluación (una pasada síncrona + tasa de error en bits, en vez de convergencia).
 
 
 
 Los resultados obtenidos con los parámetros seteados como se muestran a continuación son los siguientes:
+
 - `n=10`
+
 - `trials=100`
+
 - `seed=42`
 
 
@@ -209,7 +244,9 @@ Para cada nuevo patrón, se recorre cada posición del vector y se decide, con u
 Así obtenemos un conjunto de patrones donde todos están correlacionados con el patrón base, y el grado de correlación está dado por `proba`
 
 - Cuanto menor sea el valor del parámetro `proba` más se van a parecer los patrones entre si. (alta correlación)
+
 - Cuanto mayor sea el valor del parámetro `proba` mas diferentes van a ser los patrones.
+
 ```
 def generar_patrones_correlados(P, N, proba=0.1, rng=np.random.default_rn()):
     """
@@ -245,21 +282,28 @@ Lo único que no termino de interpretar es porque con `proba=0.50` pega un salto
 ### Implemente una red de Hopfield ‘82 que aprenda patrones pseudo-aleatorios y estudie qué sucede con los patrones aprendidos cuando algunas interconexiones son eliminadas al azar.
 
 Usando las funciones ya implementadas para toda la parte 2 anterior, laa idea practica consta de los siguientes pasos:
+
 1. Generar un conjunto de patrones pseudoaleatorios.
+
 2. Calcular la matriz de pesos W con la función de Hopfield.
+
 3. Eliminar al azar un porcentaje de interconexiones (poner en cero algunos pesos de W).
+
 4. Ver si los patrones siguen siendo estables (se recuperan después de una pasada sincrónica).
 
 #### 1. ¿Cómo cambia el error en función del porcentaje de sinapsis eliminadas?
+
 Con 100 neuronas y 12 patrones diferentes que se están almacenando en la red, se puede ver en el gráfico que a mayor porcentaje de sinapsis borrada mayor es el error.
 
 Entre un 60% - 70% de sinapsis eliminada el error está muy cerca de cero, pero cuando se borra un porcentaje mayor al 70%, el error crece casi de forma exponencial.
-![error-vs-borrado](error-vs-borrado.png)
+
+![Error vs sinápsis borrada](error-vs-borrado.png)
 
 #### 2. ¿Cómo cambia la capacidad en función del porcentaje de sinapsis eliminadas?
+
 Con 100 neuronas y 12 patrones diferentes que se están almacenando en la red, se puede ver en el gráfico que, en lineas generales, a mayor porcentaje de sinapsis borrada la capacidad de la red disminuye.
 
-![capacidad-vs-borrado](capacidad-vs-borrado.png)
+![Capacidad vs sinápsis borrada](capacidad-vs-borrado.png)
 
 
 
