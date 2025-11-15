@@ -16,7 +16,8 @@
      
     - [1) Implemente un perceptrón simple que aprenda la función lógica AND y la función lógica OR, de 2 y de 4 entradas. Muestre la evolución del error durante el entrenamiento. Para el caso de 2 dimensiones, grafique la recta discriminadora y todos los vectores de entrada de la red](#1-implemente-un-perceptrón-simple-que-aprenda-la-función-lógica-and-y-la-función-lógica-or-de-2-y-de-4-entradas-muestre-la-evolución-del-error-durante-el-entrenamiento-para-el-caso-de-2-dimensiones-grafique-la-recta-discriminadora-y-todos-los-vectores-de-entrada-de-la-red)
     - [2) Determine numéricamente cómo varía la capacidad del perceptrón simple en función
-del número de patrones enseñados.](#2-determine-numericamente-como-varia-la-capacidad-del-perceptron-simple-en-funcion-del-numero-de-patrones-enseñados)
+    del número de patrones enseñados.](#2-determine-numericamente-como-varia-la-capacidad-del-perceptron-simple-en-funcion-del-numero-de-patrones-enseñados)
+    - [3) Implemente un perceptrón multicapa que aprenda la función lógica XOR de 2 y de 4 entradas (utilizando el algoritmo Backpropagation y actualizando en batch). Muestre cómo evoluciona el error durante el entrenamiento.](#3-implemente-un-perceptrón-multicapa-que-aprenda-la-función-lógica-XOR-de-2-y-de-4-entradas-(utilizando-el-algoritmo-Backpropagation-y-actualizando-en-batch)-muestre-cómo-evoluciona-el-error-durante-el-entrenamiento)
 
 
 ## ¿Qué es un perceptrón?
@@ -189,4 +190,25 @@ En los próximos gráficos se muestran las evoluciones del error OR de 2 y 4 ent
 
 ![](ejercicio-1/error-or-4-entradas.png)
 
-### . Determine numéricamente cómo varía la capacidad del perceptrón simple en función del número de patrones enseñados. 
+### 2. Determine numéricamente cómo varía la capacidad del perceptrón simple en función del número de patrones enseñados
+La capacidad del perceptrón simple, es la cantidad más grande de pares aleatorios de patrones que puede aprender y puede resolver.
+
+Para features = 5 fijos, podemos ver que mientras que el número de patrones no supere la cantidad de features, la tasa de aprendizaje es alta, cuando se superan los 5 patrones, a tasa de aprendizaje cae abruptamente a cero.
+
+Entonces podemos concluir que la tasa de aprendizaje esta relacionada con la cantidad máxima de patrones que se le enseñe y también con la cantidad de features.
+
+
+![](ejercicio-1/aprendizaje-vs-patrones.png)
+
+
+
+### 3.Implemente un perceptrón multicapa que aprenda la función lógica XOR de 2 y de 4 entradas (utilizando el algoritmo Backpropagation y actualizando en batch). Muestre cómo evoluciona el error durante el entrenamiento.
+Un perceptrón multicapa es, básicamente, muchos perceptrones simpler organizados en capas. Es una red donde se tienen varias capas de neuronas:
+- Capa de entrada
+- Una o mas capas ocultas
+- Capa de salida
+
+Cada neurona en una capa suele está conectada con todas las neuronas de la capa siguiente.
+
+En el algoritmo Backpropagation lo que se busca es propagar hacia adelante los gradientes para obtener las salidas y el error.
+Lo primero que se hace es un pase hacia adelante: cada capa toma la salida de la anterior, aplica sus pesos y activaciones, y se obtiene la predicción final junto con el error respecto de la etiqueta. Después viene el pase hacia atrás: ese error se va “retropropagando” capa por capa, calculando cómo afecta a cada peso (gradientes). Esos gradientes se acumulan y al final se ajustan todos los pesos en la dirección que reduce el error.
