@@ -12,6 +12,7 @@
 - [¿Qué es un perceptrón?](#que-es-un-perceptron)
 - [¿Cuáles son los componentes de un perceptrón simple?](#cuales-son-los-componentes-de-un-perceptron-simple)
 - [Aprendizaje de un perceptrón simple](#aprendizaje-de-un-perceptron-simple)
+- [¿Qué es un perceptrón multicapa?](#que-es-un-percetron-multicapa)
 - [Ejercicios](#ejercicios)
      
     - [1) Implemente un perceptrón simple que aprenda la función lógica AND y la función lógica OR, de 2 y de 4 entradas. Muestre la evolución del error durante el entrenamiento. Para el caso de 2 dimensiones, grafique la recta discriminadora y todos los vectores de entrada de la red](#1-implemente-un-perceptrón-simple-que-aprenda-la-función-lógica-and-y-la-función-lógica-or-de-2-y-de-4-entradas-muestre-la-evolución-del-error-durante-el-entrenamiento-para-el-caso-de-2-dimensiones-grafique-la-recta-discriminadora-y-todos-los-vectores-de-entrada-de-la-red)
@@ -57,6 +58,13 @@ El entrenamiento del perceptrón es un ciclo corto que ajusta los pesos hasta qu
 3. Si se equivoca, se corrigen los pesos sumándole a cada uno una pequeña parte del error: $\omega_{ik} \leftarrow \omega_{ik} + \eta (O - g(X)) X_k$, donde $\eta$ es la tasa de aprendizaje (un número pequeño que controla qué tan grandes son los ajustes).
 
 Así, cada error empuja los pesos en la dirección correcta. Cuando ya no hay errores (o el modelo deja de mejorar), se detiene el entrenamiento y el perceptrón queda listo para predecir.
+
+## ¿Qué es un perceptrón multicapa?
+Un perceptrón multicapa es una red neuronal compuesta por varias capas de neuronas totalmente conectadas: existe una capa de entrada que recibe las variables del problema, una o más capas ocultas que combinan señales mediante funciones de activación no lineales, y una capa de salida que produce la respuesta final.
+Cada neurona calcula una combinación lineal de las salidas de la capa anterior y aplica una función no lineal de modo que, al apilar varias capas, el modelo puede aproximar funciones complejas que un perceptrón simple (lineal) no puede representar. 
+
+El entrenamiento se realiza con el algoritmo de backpropagation: se propaga el error de salida hacia atrás para ajustar los pesos y sesgos en cada capa mediante descenso por gradiente, permitiendo que la red aprenda patrones no lineales a partir de los datos.
+
 
 ## Ejercicios
 ### 1. Implemente un perceptrón simple que aprenda la función lógica AND y la función lógica OR, de 2 y de 4 entradas. Muestre la evolución del error durante el entrenamiento. Para el caso de 2 dimensiones, grafique la recta discriminadora y todos los vectores de entrada de la red.
@@ -236,6 +244,8 @@ En este caso la red necesita varios miles de iteraciones para reducir el error a
 Por lo que se puede ver en el gráfico, XOR 4 entradas necesita aproximadamente 8 veces mas de iteraciones que el XOR con 2 entradas.
 
 ### 4a. Implemente una red con aprendizaje Backpropagation que aprenda la función f(x,y,z)=sin(x)+cos(y)+z. Construya un conjunto de entrenamiento y uno de evaluación, y muestre la evolución del error de entrenamiento y de evaluación en función de las épocas.
+
+La función de activación no lineal elegida para el punto (a) y el punto (b) es la tangente hiperbólica, por ser una red no muy profunda y por el set de datos elegido.
 
 La red implementada es un Perceptrón multicapa, con 3 neuronas de entrada (x,y,z) y dos capas ocultas, una de 32 neuronas y otra de 16 neuronas, y una neurona de salida.
 Se eligieron estos parámetros para poder tener la sufuciente capacidad sin sobrecargar al modelo.
