@@ -13,6 +13,9 @@
 - [¿Cuáles son los componentes de un perceptrón simple?](#cuales-son-los-componentes-de-un-perceptron-simple)
 - [Aprendizaje de un perceptrón simple](#aprendizaje-de-un-perceptron-simple)
 - [¿Qué es un perceptrón multicapa?](#que-es-un-percetron-multicapa)
+- [¿Qué es una máquina restringida de Boltzmann (RBM)?](#que-es-una-maquina-restringida-de-boltzmann-(RBM))
+- [¿Qué es una red convolucional (CNN)?](#que-es-una-red-convolucional-(CNN))
+- [¿Qué es un autoencoder?](#que-es-un-autoencoder)
 - [Ejercicios](#ejercicios)
      
     - [1) Implemente un perceptrón simple que aprenda la función lógica AND y la función lógica OR, de 2 y de 4 entradas. Muestre la evolución del error durante el entrenamiento. Para el caso de 2 dimensiones, grafique la recta discriminadora y todos los vectores de entrada de la red](#1-implemente-un-perceptrón-simple-que-aprenda-la-función-lógica-and-y-la-función-lógica-or-de-2-y-de-4-entradas-muestre-la-evolución-del-error-durante-el-entrenamiento-para-el-caso-de-2-dimensiones-grafique-la-recta-discriminadora-y-todos-los-vectores-de-entrada-de-la-red)
@@ -65,6 +68,49 @@ Cada neurona calcula una combinación lineal de las salidas de la capa anterior 
 
 El entrenamiento se realiza con el algoritmo de backpropagation: se propaga el error de salida hacia atrás para ajustar los pesos y sesgos en cada capa mediante descenso por gradiente, permitiendo que la red aprenda patrones no lineales a partir de los datos.
 
+![](perceptron-multicapa-arquitectura.png)
+
+## ¿Qué es una máquina restringida de Boltzmann (RBM)?
+Una máquina restringida de Boltzmann (RBM) es un modelo generativo de energía (al igual que las redes de Hopfield) pero con dos capas de neuronas binarias: na visible (que representa los datos) y una oculta (que aprende características).
+
+Las conexiones existen solo entre capas (no hay enlaces dentro de una misma capa), lo que simplifica el cálculo de probabilidades.
+
+#### Objetivo probabilistico
+El aprendizaje de una RBM consiste en ajustar los pesos para que la distribución de probabilidad sobre las unidades visibles se aproxime a la distribución objetivo. Eso permite usarla tanto para completar patrones (rellenar píxeles faltantes) como para producir salidas probabilísticas.
+
+#### Rol de las unidades ocultas
+A diferencia de una red autoasociativa sin capas ocultas (como por ejemplo una red de Hopfield, que sólo puede controlar medias y correlaciones de segundo orden), la RBM con unidades ocultas puede capturar correlaciones superiores y resolver tareas tipo XOR “disfrazadas”. Es decir puede resolver patrones parciales o ruidosos de forma correcta.
+
+## ¿Qué es una red convolucional (CNN)?
+
+Una red neuronal convolucional es una red multicapa que consta de capas convolucionales y de reducción alternadas, y al finalmente tiene capas de conexión total como una red perceptrón multicapa. 
+La principal ventaja de las CNN es que cada parte de la red se le entrena para realizar una tarea, esto reduce significativamente el número de capas ocultas, por lo que el entrenamiento es más rápido. 
+
+Las redes neuronales convolucionales son muy potentes para todo lo que tiene que ver con el análisis de imágenes, ya que a que son capaces de detectar características simples como por ejemplo detención de bordes, lineas, etc y componer en características más complejas hasta detectar lo que se busca.
+
+![](arquitectura-red-convolucional.png)
+
+#### Convolución
+
+En la convolución se hacen operaciones de productos y sumas entre la capa de partida y los n filtros (o kernel) que genera un mapa de características. Los características extraídas corresponden a cada posible ubicación del filtro en la imagen original.
+
+La ventaja es que el mismo filtro (= neurona) sirve para extraer la misma característica en cualquier parte de la entrada, con esto que consigue reducir el número de conexiones y el número de parámetros a entrenar en comparación con una red multicapa de conexión total.
+Después de aplicar la convolución se le aplica a los mapas de características una función de activación. La función de activación recomendada es signoide ReLU
+
+#### Pooling
+En el pooling se disminuye la cantidad de parámetros al quedarse con las características más comunes.
+
+
+La última capa de esta red es una capa clasificadora que tendrá tantas neuronas como el número de clases a predecir.
+
+
+## ¿Qué es un autoencoder?
+
+Un autoencoder es una red que “se copia a sí misma”: toma la imagen de entrada, la comprime en un vector de números y después intenta reconstruir la imagen original a partir de ese vector. En el proceso aprende cuáles son las características más importantes para poder reconstruirla bien. El vector comprimido que sale del encoder es la “versión de baja dimensionalidad” que después usamos como entrada para otros modelos.
+
+La idea del autoencoder es achicar la cantidad de dimensiones del dataset pero conservando la información importante. Así se pueden alimentar modelos de esta versión comprimida que entrenarán más rápido y con menos ruido que si se usaran el dataset con todos los píxeles iniciales.
+
+![](autoencoder-arquitectura.png)
 
 ## Ejercicios
 ### 1. Implemente un perceptrón simple que aprenda la función lógica AND y la función lógica OR, de 2 y de 4 entradas. Muestre la evolución del error durante el entrenamiento. Para el caso de 2 dimensiones, grafique la recta discriminadora y todos los vectores de entrada de la red.
@@ -267,3 +313,49 @@ Para el hacer la comparación, se replicó el entrenamiento dos veces cambiando 
 - **Minibatch = 1**: El error es muy oscilatorio, al principio el error de evaluación y de entrenamiento son bastante similares,a medida que avanzan las iteraciones (aunque nunca dejan de ser oscilantes) el error del entrenamiento va tendiendo a cero.
 
 En resumen, un minibatch de 40 patrones parece converger a un valor de 0.25, en cambio, en un minibatch de 1, el error es muy oscilatorio y no parece converger en ningún valor.
+
+### 5. Siguiendo el trabajo de Hinton y Salakhutdinov (2006), entrene una máquina restringida de Boltzmann con imágenes de la base de datos MNIST. Muestre el error de recontruccion durante el entrenamiento, y ejemplos de cada uno de los dígitos reconstruidos
+
+#### Error de reconstrucción con 784 neuronas visibles y 128 neuronas binarias ocultas
+![](ejercicio-5/error-reconstruccion.png)
+
+Con una RBM de 784 neuronas visibles (número elegido porque las neuronas visibles represetan directamente los píxeles de la imagen) y 128 neuronas binarias ocultas,
+el error de reconstrucción (error cuadrático medio) de entrenamiento y de evaluación se mantienen superpuestos durante todas las iteraciones, lo cual nos da indicios de que la RBM generaliza bien, no hay saltos significativos entre ambas curvas.
+Además, la curva descience de forma "casi" exponencial, que es una señal que en cada iteración se reduce mucho el error de reconstrucción hasta converger.
+
+#### Error de reconstrucción con 784 neuronas visibles y 20 neuronas binarias ocultas
+![](ejercicio-5/error-reconstruccion-2.png)
+
+Ahora tuve la curiosidad de bajarle un 75% de cantidad de neuronas ocultas a la RBM.
+Con una RBM de 784 neuronas visibles  y 20 neuronas binarias ocultas, se puede observar que la RBM sigue capturando casi toda la información de las imágenes con mucha menos capacidad, ya que la diferencia entre el error de evaluación y el error de entrenamiento no es algo abismal, por lo que saco de conclusión que la RBM es una red robusta y no depende criticamente de tener una gran cantidad de neuronas ocultas.
+
+#### Ejemplos reconstruidos con 784 neuronas visibles y 128 neuronas ocultas
+Para una red con 784 neuronas visibles y 128 neuronas ocultas, el resultado es el esperado. La red aprende muy bien todas las imágenes y logra reconstruirlas bien, teniendo en cuenta excepciones como el número 8 que está un poco confuso en la imagen original.
+
+![](ejercicio-5/ejemplos-reconstruidos-2.png)
+
+
+#### Ejemplos reconstruidos con 784 neuronas visibles y 20 neuronas ocultas
+Como mencioné en el apartado anterior, para haber reducido un 75% la cantidad de neuronas ocultas, la reconstrucción es aceptable, si se puede ver que en algunos números parecidos los trazos se vuelven confusos o incompletos, pero considerando que se redujo un 75% la capacidad, la RBM sigue haciendo un trabajo muy aceptable desde mi punto de vista.
+
+![](ejercicio-5/ejemplos-reconstruidos.png)
+
+Mi conclusión sobre las RBM es que con una arquitectura no tan costosa, se pueden obtener resultados bastante buenos, por lo que me parece una red bastante robusta para identificación y reconstrucción de imágenes.
+
+### 6. Entrene una red convolucional para clasificar las imágenes de la base de datos MNIST. ¿Cuál es la red convolucional más pequeña que puede conseguir con una exactitud de al menos 90% en el conjunto de evaluación? ¿Cuál es el perceptrón multicapa más pequeño que puede conseguir con la misma exactitud?
+
+Entrené una CNN muy chica: una única capa convolucional con 8 filtros de 5×5 , un pooling 2×2 y una capa final conectada de 1.152 neuronas a 10 salidas (una por dígito). En total tiene unos 11.000 parámetros. La exactitud alcanzó 97.83 % en el conjunto de evaluación.
+
+También probé un perceptrón multicapa mínimo: 784 entradas (los píxeles de los dataset 28×28), una capa oculta de 64 neuronas con ReLU y la capa de salida de 10 neuronas. Con 8 iteraciones se consiguió el 97.35 % de exactitud en evaluación.
+
+
+### 7. Entrene un autoencoder para obtener una representación de baja dimensionalidad de las imágenes de MNIST. Use dichas representaciones para entrenar un perceptrón multicapa como clasificador. ¿Cuál es el tiempo de entrenamiento y la exactitud del clasificador obtenido cuando parte de la representación del autoencoder, en comparación con lo obtenido usando las imágenes originales?
+
+El autoencoder, que comprime cada imagen de 784 píxeles a un vector de 16 números tardó unos 56 segundos en entrenarse y terminó reconstruyendo bastante bien (el error bajó de 0.068 a 0.012).
+
+Con esos vectores resultantes entrené el perceptrón multicapa en 14.5 segundos y logró 95.6 % de aciertos. El mismo perceptrón, pero alimentado con los píxeles originales (784 entradas), tardó 20.2 segundos y llegó a 97.8 %. 
+La conclusión es que usar la las imágenes aplanadas en vectores acelera el entrenamiento, pero la red que mira los píxeles originales sigue siendo un poco más precisa.
+
+
+
+### 8. Encontrar un perceptrón multicapa que resuelva una XOR de 2 entradas mediante simulated annealing. Graficar el error a lo largo del proceso de aprendizaje.
