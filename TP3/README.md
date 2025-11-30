@@ -162,16 +162,111 @@ Para documentar el comportamiento de la red, se generaron cuatro distribuciones 
 
 ### 2.  Resuelva (aproximadamente) el “Traveling salesman problem” para 200 ciudades con una red de Kohonen.
 
-En principio necesito tantas neuronas como ciudades, mas neuronas tengo mas W
+`The Traveling salesman problem` se trata de encontrar el recorrido "menos costoso" pasando por todas las ciudades,volviendo a la ciudad de origen.
 
-### En el campus encontrará el archivo “datos_para_clustering.mat” que contiene una matriz de datos de 500 mediciones de una variable de 100 dimensiones.
+Para calcular la longitud total del camino propuesto por la red, se usa la distancia euclídea entre cada ciudad, y también asumo que la unidad de medida es km.
+
+Para probar si la red devuelve un buen resultado, elijo probar con pocas ciudades comparando el camino óptimo calculado con fuerza bruta.
+
+Tener en cuenta que para todos los casos se usó: `cantidad de neuronas = cantidad de ciudades`
+
+
+### 10 ciudades
+
+La longitud del camino mas óptimo para 10 ciudades calculado por fuerza bruta es : `3.194`
+
+Comparando con el resultado que me devuelve la red con:
+- `Cantidad de iteraciones = 100`
+- `La elección inicial de pesos de forma aleatoria `
+- `Learning rate = 0.4`
+
+![Mapa 10 ciudades](ejercicio-2/graficos/10-ciudades.png)
+
+![Mapa devuelto por la red](ejercicio-2/graficos/resultado-10-ciudades.png)
+
+### 20 ciudades
+
+Para este caso, no pude calcular el camino más óptimo por fuerza bruta porque tarda mucho tiempo de procesamiento.
+Pero se pueden observar algunas cosas con estos parámetros:
+
+- `Cantidad de iteraciones = 200`
+- `La elección inicial de pesos de forma aleatoria `
+- `Learning rate = 0.4`
+
+![Mapa 20 ciudades](ejercicio-2/graficos/20-ciudades.png)
+
+![resultado 20 ciudades](ejercicio-2/graficos/resultado-20-ciudades.png)
+
+Se arman dos triángulos (cruces) un poco extraños en el lado inferior derecho, puede ser debido a la cantidad de iteraciones o el learning rate.
+Entonces, decidí volver a correr el modelo pero ajustado los hiperpaŕametros.
+
+- `Cantidad de iteraciones = 1000`
+- `La elección inicial de pesos de forma aleatoria `
+- `Learning rate = 0.6`
+
+![resultado 20 ciudades optimizada](ejercicio-2/graficos/resultado-20-ciudades-v2.png)
+
+Se puede observar que se "suaviza" la ruta pero el costo del camino no mejora mucho más.
+
+### 200 ciudades
+
+- `Cantidad de iteraciones = 2000`
+- `La elección inicial de pesos de forma aleatoria `
+- `Learning rate = 0.6`
+
+![200 ciudades](ejercicio-2/graficos/200-ciudades.png)
+![200 ciudades resultado](ejercicio-2/graficos/resultado-200-ciudades.png)
+
+Con los hiperparámetros mencionados arriba, se puede observar una ruta con muchos picos y cruces raros.
+
+Ajustando los hiperparámetros a:
+
+- `Cantidad de iteraciones = 6000`
+- `La elección inicial de pesos de forma aleatoria `
+- `Learning rate = 0.8`
+
+![200 ciudades resultado 2](ejercicio-2/graficos/resultado-200-ciudades-v2.png)
+
+Con el ajuste de los hiperpárametros se sigue viendo un camino con bastantes picos, y la mejoría de la longitud del camino es mínima, solo mejora un 0.4%, no me parece una mejora significante para haber aumentado un 200% la cantidad de iteraciones y un 33% el learning rate.
+
+
+
+
+
+### 3. En el campus encontrará el archivo “datos_para_clustering.mat” que contiene una matriz de datos de 500 mediciones de una variable de 100 dimensiones.
 a) Utilice una red de Kohonen para reducir la dimensionalidad de los datos.
 
 b) Verifique la presencia de clusters, e indique cuantos puede visualizar, haciendo uso
 de la matriz U.
 
-### COmentarios adicionales
-Para el ejercicio 3, podemos usar todo el codigo del ejercicio 1 y el entrenamiento y demas es lo mismo.
-Hay que probar varias combinaciones para ver la cantidad de clusters que hay (puedo graficarlo con un heatmap)
+Para este ejercicio se reutilizó mucho del código del ejercicio 1.
+Hice varias pruebas con diferentes combinaciones de hiperparámetros para poder identificar la cantidad de clusters.
 
-rveiga@fi.uba.ar -> ver si hay algun paper interesante y mandarselo por mail.
+### Primera ejecución
+- `Cantidad de neuronas = 144`
+- `Learning rate = 0.5`
+- `semilla inicial = 42`
+- `Cantidad de iteraciones = 15000`
+
+![Primer resultado](ejercicio-3/graficos/heatmap-1.png)
+
+
+### Segunda ejecución
+- `Cantidad de neuronas = 255`
+- `Learning rate = 0.7`
+- `semilla inicial = 7`
+- `Cantidad de iteraciones = 25000`
+
+![Primer resultado](ejercicio-3/graficos/heatmap-2.png)
+
+
+### Tercera ejecución
+- `Cantidad de neuronas = 324`
+- `Learning rate = 0.4`
+- `semilla inicial = None`
+- `Cantidad de iteraciones = 30000`
+![Primer resultado](ejercicio-3/graficos/heatmap-3.png)
+
+
+Se pueden ver 4 clusters en las 3 ejecuciones variando bastante los hiperparámetros, y ambos en la misma posición (zonas violetas oscuras) delimitadas por las lineas mas claras.
+
