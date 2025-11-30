@@ -136,6 +136,28 @@ La forma final del mapa de Kohonen depende de la topología de la rejilla de neu
 
 ### 1. Construya una red de Kohonen de 2 entradas que aprenda una distribución uniforme dentro del círculo unitario. Mostrar el mapa de preservación de topología. Probar con distribuciones uniformes dentro de otras figuras geométricas.
 
+Para hacer este ejercicio, se usó una red de Kohonen con 144 neuronas, donde cada neurona tiene asociado su vector de pesos.
+La tasa de aprendizaje inicial es de 0.5.
+
+Para documentar el comportamiento de la red, se generaron cuatro distribuciones y se guardó el mapa final de neuronas.
+
+**Cuadrado**
+
+![Mapa Kohonen cuadrado](ejercicio-1/figuras/cuadrado.png)
+
+**Círculo**
+
+![Mapa Kohonen círculo](ejercicio-1/figuras/circulo.png)
+
+**Parábola**
+
+![Mapa Kohonen parábola](ejercicio-1/figuras/parabola.png)
+ 
+
+**Hipérbola**
+
+![Mapa Kohonen hipérbola](ejercicio-1/figuras/hiperbola.png)
+
 
 
 ### 2.  Resuelva (aproximadamente) el “Traveling salesman problem” para 200 ciudades con una red de Kohonen.
